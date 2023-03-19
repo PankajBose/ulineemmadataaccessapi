@@ -27,12 +27,12 @@ public class MetadataAccess {
 
     @RequestMapping(value = "/", produces = "text/html")
     String welcome() {
-        return "Welcome to EMMA metadata access application. Build 2023-03-19 17:03";
+        return "Welcome to EMMA metadata access application. Build 2023-03-19 17:16";
     }
 
     @GetMapping(value = "/search", produces = "application/json")
     public static ResponseData search() throws SQLException {
-        ResultSet resultSet = connection.prepareStatement("select \"Subject\", \"ToEmail\", \"FromEmail\", \"Assigned\", \"AssignedDate\", \"Queue\", \"InProcessDate\", \"Handled_Category_Text\", \"Handled_by\", \"TxtHandledDate\" from public.emailitemsarchived\n" +
+        ResultSet resultSet = connection.prepareStatement("select \"Title\", \"Subject\", \"ToEmail\", \"FromEmail\", \"CCEmail\",\"BccEmail\", \"Category\",\"EmailAttachments\",\"AssignedTo\",\"AssignedToEmail\",\"Handled\",\"Created\",\"Pending\",\"Assigned\", \"AssignedDate\", \"Queue\", \"InProcessDate\", \"Handled_Category_Text\", \"Handled_by\", \"TxtHandledDate\" from public.emailitemsarchived\n" +
                 "where emailitemsarchived.\"TxtHandledDate\" > '01/05/2023'\n" +
                 "order by public.emailitemsarchived.\"TxtHandledDate\"\n" +
                 "Limit 1000").executeQuery();
