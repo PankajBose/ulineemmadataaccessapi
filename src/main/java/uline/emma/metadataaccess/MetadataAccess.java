@@ -27,7 +27,7 @@ public class MetadataAccess {
 
     @RequestMapping(value = "/", produces = "text/html")
     String welcome() {
-        return "Welcome to EMMA metadata access application. Build 2023-03-19 17:20";
+        return "Welcome to EMMA metadata access application. Build 2023-03-19 17:25";
     }
 
     @GetMapping(value = "/search", produces = "application/json")
@@ -43,10 +43,13 @@ public class MetadataAccess {
             Map<String, Object> row = new HashMap<>();
             for (int i = 1; i <= columnCount; i++) {
                 Object object = resultSet.getObject(i);
+                if (object == null) continue;
+
                 String columnName = metaData.getColumnName(i);
                 row.put(columnName, object);
             }
-            data.add(row);
+
+            if (!row.isEmpty()) data.add(row);
         }
 
         ResponseData responseData = new ResponseData();
