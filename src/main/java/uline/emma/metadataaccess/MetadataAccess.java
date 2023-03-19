@@ -27,11 +27,11 @@ public class MetadataAccess {
 
     @RequestMapping(value = "/", produces = "text/html")
     String welcome() {
-        return "Welcome to EMMA metadata access application";
+        return "Welcome to EMMA metadata access application. Build 2023-03-19 17:03";
     }
 
     @GetMapping(value = "/search", produces = "application/json")
-    public static List<Map<String, Object>> search() throws SQLException {
+    public static ResponseData search() throws SQLException {
         ResultSet resultSet = connection.prepareStatement("select \"Subject\", \"ToEmail\", \"FromEmail\", \"Assigned\", \"AssignedDate\", \"Queue\", \"InProcessDate\", \"Handled_Category_Text\", \"Handled_by\", \"TxtHandledDate\" from public.emailitemsarchived\n" +
                 "where emailitemsarchived.\"TxtHandledDate\" > '01/05/2023'\n" +
                 "order by public.emailitemsarchived.\"TxtHandledDate\"\n" +
@@ -49,7 +49,9 @@ public class MetadataAccess {
             data.add(row);
         }
 
-        return data;
+        ResponseData responseData = new ResponseData();
+        responseData.setRow(data);
+        return responseData;
     }
 
     private static void init() {
