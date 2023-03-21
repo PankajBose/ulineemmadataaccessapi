@@ -27,7 +27,7 @@ public class MetadataAccess {
 
     @RequestMapping(value = "/", produces = "text/html")
     String welcome() {
-        return "Welcome to EMMA metadata access application. Build 2023-03-21 18:20";
+        return "Welcome to EMMA metadata access application. Build 2023-03-21 18:40";
     }
 
     @GetMapping(value = "/search", produces = "application/json")
