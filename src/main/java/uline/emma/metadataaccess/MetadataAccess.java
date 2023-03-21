@@ -35,7 +35,7 @@ public class MetadataAccess {
         ResultSet resultSet = connection.prepareStatement("select \"Title\", \"Subject\", \"ToEmail\", \"FromEmail\", \"CCEmail\",\"BccEmail\", \"Category\",\"EmailAttachments\",\"AssignedTo\",\"AssignedToEmail\",\"Handled\",\"Created\",\"Pending\",\"Assigned\", \"AssignedDate\", \"Queue\", \"InProcessDate\", \"Handled_Category_Text\", \"Handled_by\", \"TxtHandledDate\" from public.emailitemsarchived\n" +
                 "where emailitemsarchived.\"TxtHandledDate\" > '01/05/2023'\n" +
                 "order by public.emailitemsarchived.\"TxtHandledDate\"\n" +
-                "Limit 1000").executeQuery();
+                "Limit 5000").executeQuery();
         ResultSetMetaData metaData = resultSet.getMetaData();
         int columnCount = metaData.getColumnCount();
         List<Map<String, Object>> data = new ArrayList<>();
