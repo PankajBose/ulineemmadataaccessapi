@@ -3,6 +3,7 @@ package uline.emma.metadataaccess;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class MetadataAccess {
 
     @RequestMapping(value = "/", produces = "text/html")
     String welcome() {
-        return "Welcome to EMMA metadata access application. Build 2023-03-21 18:40";
+        return "Welcome to EMMA metadata access application. Build 2023-03-22 16:05";
     }
 
     @GetMapping(value = "/search", produces = "application/json")
@@ -55,6 +56,21 @@ public class MetadataAccess {
         ResponseData responseData = new ResponseData();
         responseData.setRow(data);
         return responseData;
+    }
+
+    @PostMapping("/add")
+    public static String add() throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("insert into public.emailitemsarchived " +
+                "(\"Title\", \"Subject\", \"ToEmail\", \"FromEmail\", \"CCEmail\",\"BccEmail\", \"Category\"," +
+                "\"EmailAttachments\",\"AssignedTo\",\"AssignedToEmail\",\"Handled\",\"Created\",\"Pending\",\"Assigned\", " +
+                "\"AssignedDate\", \"Queue\", \"InProcessDate\", \"Handled_Category_Text\", \"Handled_by\", \"TxtHandledDate\") " +
+                "values (concat('Solugen, Inc. Purchase Order', CAST(10000000 + floor(random() * 90000000) AS varchar(8)),' - Uline')," +
+                "concat('Solugen, Inc. Purchase Order', CAST(10000000 + floor(random() * 90000000) AS varchar(8)),' - Uline')," +
+                "'mentoradmin@ulineuat.com','smishra@netwoven.com','','','','','','','',LOCALTIMESTAMP,'false','','','Main Inbox',''," +
+                "'Mentors','_EMMAAdmin','01/06/2023')");
+        int i = statement.executeUpdate();
+
+        return i + " Rows updated";
     }
 
     private static void init() {
