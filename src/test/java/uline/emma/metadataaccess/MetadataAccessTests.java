@@ -1,12 +1,18 @@
 package uline.emma.metadataaccess;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 @SpringBootTest
 class MetadataAccessTests {
@@ -24,6 +30,21 @@ class MetadataAccessTests {
                 Object object = resultSet.getObject(i);
                 System.out.println("object = " + object);
             }
+        }
+    }
+
+    @Test
+    void add() throws IOException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost("https://emmadataaccessdemo.azurewebsites.net/add");
+        httpPost.addHeader("content-type", "application/json");
+        HttpResponse httpResponse = httpClient.execute(httpPost);
+        Scanner sc = new Scanner(httpResponse.getEntity().getContent());
+
+        //Printing the status line
+        System.out.println(httpResponse.getStatusLine());
+        while (sc.hasNext()) {
+            System.out.println(sc.nextLine());
         }
     }
 }
